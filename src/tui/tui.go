@@ -23,7 +23,7 @@ type TUI struct {
 }
 
 func (t *TUI) InitAll() {
-	t.Podcasts, _ = t.DB.GetPodcasts()
+	t.Podcasts = t.DB.SortPodcastByTitle()
 	t.initGrid()
 	t.setInputCapture()
 	t.setDoneFunc()
@@ -94,7 +94,7 @@ func (t *TUI) setInputCapture() {
 			item_idx := t.PodcastList.GetCurrentItem()
 			t.DB.DeletePodcast(t.Podcasts[item_idx].ID)
 			t.PodcastList.RemoveItem(item_idx)
-			t.Podcasts, _ = t.DB.GetPodcasts()
+			t.Podcasts = t.DB.SortPodcastByTitle()
 			return nil
 		}
 		return event
@@ -116,7 +116,7 @@ func (t *TUI) setInputCapture() {
 }
 
 func (t *TUI) loadList() {
-	t.Podcasts, _ = t.DB.GetPodcasts()
+	t.Podcasts = t.DB.SortPodcastByTitle()
 
 	for _, podcast := range t.Podcasts {
 		// When Enter is pressed, get episodes list of a podcast

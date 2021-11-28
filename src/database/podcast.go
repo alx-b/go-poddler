@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"sort"
 )
 
 type PodcastIn struct {
@@ -13,6 +14,20 @@ type PodcastOut struct {
 	ID    int
 	Title string
 	URL   string
+}
+
+func (db *Database) SortPodcastByTitle() []PodcastOut {
+	podcasts, err := db.GetPodcasts()
+
+	if err != nil {
+		panic(err)
+	}
+
+	sort.Slice(podcasts, func(a, b int) bool {
+		return podcasts[a].Title < podcasts[b].Title
+	})
+
+	return podcasts
 }
 
 func (db *Database) GetPodcasts() ([]PodcastOut, error) {
