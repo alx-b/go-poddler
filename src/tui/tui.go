@@ -142,6 +142,7 @@ func (t *TUI) loadList() {
 						index := t.StatusList.GetItemCount() - 1
 						episode.DownloadFile(anEpisode)
 						t.StatusList.SetItemText(index, fmt.Sprintf("Done %d._%s", anEpisode.Number, anEpisode.Title), "")
+						t.App.Draw()
 						//t.StatusList.AddItem(fmt.Sprintf("Done %d._%s", episode.Number, episode.Title), "", 0, nil)
 						t.WaitGroup.Done()
 					}()
