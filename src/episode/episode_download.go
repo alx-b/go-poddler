@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 	"time"
 
 	"github.com/mmcdole/gofeed"
@@ -25,7 +26,6 @@ type Episode struct {
 // returns a slice of episodes.
 func GetEpisodes(feed *gofeed.Feed) []Episode {
 	items := feed.Items
-	counter := len(items)
 
 	episodes := []Episode{}
 
@@ -37,13 +37,25 @@ func GetEpisodes(feed *gofeed.Feed) []Episode {
 		}
 		episode := Episode{
 			PodcastTitle: feed.Title,
-			Number:       counter,
-			Title:        entry.Title,
-			FileURL:      audioFileURL,
-			Date:         entry.Published,
+			//	Number:       counter,
+			Title:   entry.Title,
+			FileURL: audioFileURL,
+			Date:    entry.Published,
 		}
-		counter--
 		episodes = append(episodes, episode)
+	}
+
+	// Sort slice by date in descending order
+	sort.Slice(episodes, func(a, b int) bool {
+		time1, _ := time.Parse(time.RFC1123Z, episodes[a].Date)
+		time2, _ := time.Parse(time.RFC1123Z, episodes[b].Date)
+		return time1.After(time2)
+	})
+
+	counter := len(episodes)
+	for index := range episodes {
+		counter--
+		episodes[index].Number = counter
 	}
 
 	return episodes
