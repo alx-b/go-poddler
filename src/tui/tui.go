@@ -159,7 +159,7 @@ func initUrlField() *tview.InputField {
 
 	inputField.SetFieldBackgroundColor(tcell.ColorGray).
 		SetBorder(true).
-		SetTitle("Add new feed URL").
+		SetTitle("Add new URL feed").
 		SetBorderPadding(0, 0, 1, 1)
 
 	return inputField
