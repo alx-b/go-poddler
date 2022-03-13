@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/mmcdole/gofeed"
@@ -73,6 +74,16 @@ func fileExists(filePath string) bool {
 
 // Download audio file from an episode.
 func DownloadFile(episode Episode) error {
+	// Common character that some devices don't like.
+	rep := strings.NewReplacer(
+		" ", "_",
+		":", "_",
+		"(", "-",
+		")", "-",
+		"[", "-",
+		"]", "-",
+	)
+	episode.Title = rep.Replace(episode.Title)
 	fileName := fmt.Sprintf("%d._%s.mp3", episode.Number, episode.Title)
 	homeDirectory, err := os.UserHomeDir()
 	filePath := fmt.Sprintf("%s/Music/podcasts/%s/%s", homeDirectory, episode.PodcastTitle, fileName)
