@@ -43,10 +43,10 @@ func (t *TUI) setDoneFunc() {
 			feed, err := episode.GetPodcastFeed(url)
 
 			if err != nil {
-				fmt.Errorf("%v", err)
+				t.StatusList.AddItem(fmt.Sprintf("%s: Not a valid URL feed", url), "", 0, nil)
+			} else {
+				t.DB.SavePodcast(database.PodcastIn{Title: feed.Title, URL: url})
 			}
-
-			t.DB.SavePodcast(database.PodcastIn{Title: feed.Title, URL: url})
 
 			t.UrlField.SetText("")
 			t.PodcastList.Clear()
