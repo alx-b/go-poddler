@@ -10,7 +10,7 @@ Go, gofeed, tview, sqlite
 ## Features
 - Add/Remove rssfeed url.
 - Download episodes.
-    default: (~/Music/podcasts/ <PodcastTitle> /<Number._EpisodeTitle>)
+    default: (~/Music/podcasts/< PodcastTitle >/< Number._EpisodeTitle >)
 
 ## Keybinding
 - TAB key    = Cycle through the blocks.
